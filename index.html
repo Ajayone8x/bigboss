@@ -1,16 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>Astro Live - Shaka Player</title>
+  <title>Astro Live - HLS Player</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" type="image/png">
 
-  <!-- Shaka Player -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.ui.min.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/controls.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
     html, body {
@@ -20,9 +16,10 @@
       background: black;
     }
 
-    #video {
+    video {
       width: 100% !important;
       height: 100% !important;
+      background: black;
     }
 
     .telegram-popup {
@@ -79,13 +76,10 @@
     }
   </style>
 </head>
-
 <body>
 
-  <!-- Shaka Player Container -->
-  <video id="video"
-         poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"
-         controls autoplay muted></video>
+  <!-- Video Player -->
+  <video id="video" controls autoplay muted></video>
 
   <!-- Telegram Popup -->
   <div class="telegram-popup" id="telegramPopup">
@@ -96,19 +90,11 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const video = document.getElementById('video');
-      const player = new shaka.Player(video);
+    const video = document.getElementById('video');
+    const videoSrc = "mini.allinonereborn.online/jiobe.m3u8?id=169";
 
-      try {
-        await player.load("https://mini.allinonereborn.online/jiobe.m3u8?id=169");
-        console.log("Stream loaded successfully!");
-      } catch (error) {
-        console.error("Error loading stream", error);
-      }
-    });
-  </script>
-
-</body>
-
-</html>
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MAN
